@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {AppBar, Button, Grid, IconButton, Toolbar} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import {LOGIN_ROUTE} from "../utils/consts";
+import {Context} from "../index";
+import {useAuthState} from "react-firebase-hooks/auth";
 
 const Navbar = () => {
 
-    const user = true
+    const {auth} = useContext(Context)
+    const [user] = useAuthState(auth)
 
     return (
         <AppBar color={''} position='static'>
@@ -14,7 +17,7 @@ const Navbar = () => {
                     {
                         user
                         ?
-                            <Button variant={'outlined'}>Log out</Button>
+                            <Button onClick={() => auth.signOut()} variant={'outlined'}>Log out</Button>
                         :
                             <NavLink to={LOGIN_ROUTE}>
                                 <Button variant={'outlined'}>Login</Button>
